@@ -1,0 +1,30 @@
+{
+  "name": "jobapplicationpage-backend",
+  "version": "1.0.0",
+  "description": "Backend API for tech job listings with MongoDB Atlas",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js"
+  },
+  "keywords": [
+    "jobs",
+    "backend",
+    "fastify",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cors": "^10.0.1",
+    "@fastify/helmet": "^13.0.0",
+    "@fastify/rate-limit": "^10.3.0",
+    "dotenv": "^16.6.1",
+    "fastify": "^5.6.1",
+    "mongoose": "^8.19.2"
+  },
+  "type": "module",
+  "devDependencies": {
+    "mongodb-memory-server": "^11.0.1"
+  }
+}

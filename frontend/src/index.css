@@ -1,0 +1,124 @@
+/* ─────────────────────────────────────────────────────────
+   Global styles for JobBoard frontend
+   Stack: Tailwind CSS v4 via @tailwindcss/vite
+───────────────────────────────────────────────────────── */
+@import "tailwindcss";
+
+/* ── Design tokens ───────────────────────────────────────── */
+@theme {
+  /* Brand shades (purple) */
+  --color-brand-50: #f5f3ff;
+  --color-brand-100: #ede9fe;
+  --color-brand-200: #ddd6fe;
+  --color-brand-300: #c4b5fd;
+  --color-brand-400: #a78bfa;
+  --color-brand-500: #8b5cf6;
+  --color-brand-600: #7c3aed;
+  --color-brand-700: #6d28d9;
+  --color-brand-800: #5b21b6;
+  --color-brand-900: #4c1d95;
+  --color-brand-950: #2e1065;
+
+  /* Accent (teal) */
+  --color-accent-400: #2dd4bf;
+  --color-accent-500: #14b8a6;
+
+  /* Dark background shades */
+  --color-dark-400: #3f3f46;
+  --color-dark-600: #27272a;
+  --color-dark-800: #18181b;
+  --color-dark-900: #09090b;
+
+  /* Typography */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+/* ── Base layer ──────────────────────────────────────────── */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    background-color: var(--color-dark-900);
+    color: #e4e4e7;
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  /* Subtle ambient background glow — fixed so it stays behind everything */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 85% 30%, rgba(20, 184, 166, 0.05) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+/* ── Reusable component classes ───────────────────────────── */
+@layer components {
+
+  /* Frosted-glass panel (used for sections) */
+  .glass-panel {
+    @apply bg-dark-800/60 backdrop-blur-xl border border-white/10 shadow-xl;
+  }
+
+  /* Frosted-glass card (used for job cards, side cards) */
+  .glass-card {
+    @apply bg-dark-800/40 backdrop-blur-md border border-white/5 rounded-2xl transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply border-brand-500/40 -translate-y-1;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(139, 92, 246, 0.1);
+  }
+
+  /* Primary CTA button */
+  .btn-primary {
+    @apply relative overflow-hidden inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold text-white bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 transition-all duration-300;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 28px rgba(139, 92, 246, 0.5);
+  }
+
+  /* Secondary ghost button */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-medium text-white bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300;
+  }
+
+  /* Small label badge (e.g. "remote", "full-time") */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border;
+  }
+}
+
+/* ── Keyframe animations ─────────────────────────────────── */
+
+/* Used by the hero gradient text in LandingPage */
+@keyframes gradient-x {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  animation: gradient-x 4s ease infinite;
+}
+
+.bg-300\% {
+  background-size: 300% 300%;
+}
