@@ -1,0 +1,12 @@
+﻿# Ignore dependency folders
+backend/node_modules/
+frontend/node_modules/
+node_modules/
+
+# Ignore environment files (contain secrets)
+.env
+backend/.env
+frontend/.env
+
+# Build output
+frontend/dist/
