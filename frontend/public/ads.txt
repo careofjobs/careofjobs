@@ -1,0 +1,3 @@
+# Replace 'pub-0000000000000000' with your actual numerical Publisher ID (without 'ca-')
+# You can find this in your AdSense account under Settings > Account information
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

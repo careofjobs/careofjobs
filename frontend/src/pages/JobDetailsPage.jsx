@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { MapPin, Clock, Building2, ExternalLink, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import AdSlot from '../components/AdSlot';
+import { getBadgeColor, getAvatarGradient } from '../utils/jobHelpers';
 
 // Read API base URL from environment so it's never hardcoded
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL || '';
+const HEADER_AD_SLOT = import.meta.env.VITE_ADSENSE_SLOT_DETAILS_HEADER;
+const SIDEBAR_AD_SLOT = import.meta.env.VITE_ADSENSE_SLOT_DETAILS_SIDEBAR;
 
 export default function JobDetailsPage() {
     const { id } = useParams();
@@ -37,17 +41,6 @@ export default function JobDetailsPage() {
         window.open(`${API_URL}/api/jobs/${id}/apply`, '_blank', 'noopener,noreferrer');
     };
 
-    const getBadgeColor = (type) => {
-        const colors = {
-            remote: 'text-[#2dd4bf] bg-[#2dd4bf]/10 border-[#2dd4bf]/20',
-            hybrid: 'text-[#a78bfa] bg-[#a78bfa]/10 border-[#a78bfa]/20',
-            onsite: 'text-orange-400 bg-orange-400/10 border-orange-400/20',
-            'full-time': 'text-green-400 bg-green-400/10 border-green-400/20',
-            'part-time': 'text-blue-400 bg-blue-400/10 border-blue-400/20',
-        };
-        return colors[type] || 'text-zinc-400 bg-zinc-400/10 border-zinc-400/20';
-    };
-
     const formatDate = (dateString) => {
         if (!dateString) return '';
         return new Date(dateString).toLocaleDateString('en-US', {
@@ -57,13 +50,7 @@ export default function JobDetailsPage() {
         });
     };
 
-    // Creates a deterministic gradient colour from the company name string
-    const getAvatarGradient = (company) => {
-        const hue = [...(company || 'A')].reduce((acc, c) => acc + c.charCodeAt(0), 0) % 360;
-        return `linear-gradient(135deg, hsl(${hue}, 70%, 60%), hsl(${(hue + 40) % 360}, 70%, 50%))`;
-    };
-
-    // ── Loading skeleton ──────────────────────────────────────
+    // Loading skeleton
     if (loading) {
         return (
             <div className="pt-32 pb-20 min-h-screen max-w-4xl mx-auto px-4 animate-pulse">
@@ -86,7 +73,7 @@ export default function JobDetailsPage() {
         );
     }
 
-    // ── Error / not found ─────────────────────────────────────
+    // Error / not found
     if (error || !job) {
         return (
             <div className="pt-32 pb-20 min-h-screen text-center">
@@ -101,7 +88,7 @@ export default function JobDetailsPage() {
         );
     }
 
-    // ── Job detail view ───────────────────────────────────────
+    // Job detail view
     return (
         <div className="pt-32 pb-20 min-h-screen">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -116,18 +103,22 @@ export default function JobDetailsPage() {
                 </Link>
 
                 {/* Header card */}
-                <div className="glass-card p-8 md:p-12 mb-8 relative overflow-hidden">
+                <div className="glass-card p-8 md:p-12 mb-6 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-[#8b5cf6]/10 blur-[80px] rounded-full pointer-events-none" />
 
                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 relative z-10">
                         {/* Company info */}
                         <div className="flex items-start gap-6">
-                            <div
-                                className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-2xl flex items-center justify-center text-white font-bold text-2xl md:text-3xl shadow-lg ring-1 ring-white/10"
-                                style={{ background: getAvatarGradient(job.company) }}
-                            >
-                                {job.company.charAt(0).toUpperCase()}
-                            </div>
+                            {job.companyLogo ? (
+                                <img src={job.companyLogo} alt={`${job.company} logo`} className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-2xl object-contain shadow-lg ring-1 ring-white/10 bg-white" />
+                            ) : (
+                                <div
+                                    className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-2xl flex items-center justify-center text-white font-bold text-2xl md:text-3xl shadow-lg ring-1 ring-white/10"
+                                    style={{ background: getAvatarGradient(job.company) }}
+                                >
+                                    {job.company.charAt(0).toUpperCase()}
+                                </div>
+                            )}
 
                             <div>
                                 <h1 className="text-2xl md:text-4xl font-bold text-white mb-2">{job.title}</h1>
@@ -136,7 +127,10 @@ export default function JobDetailsPage() {
                                     {job.company}
                                 </div>
 
-                                <div className="flex flex-wrap gap-2 md:gap-4 text-sm text-zinc-400">
+                                <div className="flex flex-wrap items-center gap-2 md:gap-3 text-sm text-zinc-400">
+                                    <span className={`badge ${getBadgeColor(job.locationType)}`}>{job.locationType}</span>
+                                    <span className={`badge ${getBadgeColor(job.employmentType)}`}>{job.employmentType}</span>
+                                    
                                     <span className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">
                                         <MapPin className="w-4 h-4 text-zinc-500" /> {job.location}
                                     </span>
@@ -145,25 +139,16 @@ export default function JobDetailsPage() {
                                     </span>
                                     {job.salaryMin && (
                                         <span className="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-md border border-white/5 text-green-400 font-medium">
-                                            💰 ${(job.salaryMin / 1000).toFixed(0)}k – ${(job.salaryMax / 1000).toFixed(0)}k
+                                            ₹{(job.salaryMin / 100000).toFixed(1).replace(/\.0$/, '')}L – ₹{(job.salaryMax / 100000).toFixed(1).replace(/\.0$/, '')}L
                                         </span>
                                     )}
                                 </div>
                             </div>
                         </div>
-
-                        {/* Badges + Apply button */}
-                        <div className="flex flex-col gap-3 md:items-end">
-                            <div className="flex gap-2">
-                                <span className={`badge ${getBadgeColor(job.locationType)}`}>{job.locationType}</span>
-                                <span className={`badge ${getBadgeColor(job.employmentType)}`}>{job.employmentType}</span>
-                            </div>
-                            <button onClick={handleApply} className="btn-primary w-full md:w-auto mt-2">
-                                Apply Now <ExternalLink className="w-4 h-4" />
-                            </button>
-                        </div>
                     </div>
                 </div>
+
+                <AdSlot slot={HEADER_AD_SLOT} className="p-4 mb-8" />
 
                 {/* Body: description + sidebar */}
                 <div className="grid md:grid-cols-3 gap-8">
@@ -194,6 +179,20 @@ export default function JobDetailsPage() {
                                 </ul>
                             </div>
                         )}
+
+                        {/* Bottom Ad and Apply Section */}
+                        <div className="pt-4">
+                            <AdSlot slot={HEADER_AD_SLOT} className="p-4 mb-8" />
+                            <div className="glass-card p-10 border-t-[3px] border-t-[#8b5cf6] text-center flex flex-col items-center bg-gradient-to-b from-[#8b5cf6]/5 to-transparent">
+                                <h2 className="text-2xl font-bold text-white mb-3">Interested in this role at {job.company}?</h2>
+                                <p className="text-zinc-400 mb-8 max-w-lg">
+                                    Review the requirements and submit your application securely.
+                                </p>
+                                <button onClick={handleApply} className="btn-primary py-4 px-12 text-lg flex items-center gap-3 w-full sm:w-auto">
+                                    Apply Now <ExternalLink className="w-5 h-5" />
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Sidebar */}
@@ -237,6 +236,8 @@ export default function JobDetailsPage() {
                                 )}
                             </div>
                         </div>
+
+                        <AdSlot slot={SIDEBAR_AD_SLOT} className="p-4" />
 
                         {/* CTA card */}
                         <div className="glass-card p-6 border-t-[3px] border-t-[#2dd4bf] bg-gradient-to-b from-[#2dd4bf]/5 to-transparent">

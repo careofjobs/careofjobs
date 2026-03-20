@@ -10,5 +10,13 @@ export default defineConfig({
   ],
   server: {
     port: 5500,
-  }
+    // Forward /api/* requests to the backend so there's no cross-origin issue in dev
+    proxy: {
+      '/api': {
+        target: 'http://localhost:4000',
+        changeOrigin: true,
+      },
+    },
+  },
 })
+

@@ -7,7 +7,41 @@ import { JobModel } from "../models/Job.js";
 function isValidId(id) {
     return mongoose.Types.ObjectId.isValid(id);
 }
-
+// Sample jobs used for development seeding
+export const sampleJobs = [
+    {
+        title: "Senior React Engineer",
+        company: "Stripe",
+        category: "Engineering",
+        experienceLevel: "senior",
+        location: "Bengaluru, KA",
+        locationType: "hybrid",
+        employmentType: "full-time",
+        salaryMin: 3500000,
+        salaryMax: 5000000,
+        shortDescription: "Build payment UIs used by millions of developers.",
+        fullDescription: "You will work with a frontend team to design and implement React components for Stripe. You will own performance and accessibility.",
+        skills: ["React", "TypeScript", "CSS"],
+        tags: ["frontend", "remote"],
+        sourceUrl: "https://stripe.com/jobs"
+    },
+    {
+        title: "Backend Engineer",
+        company: "Vercel",
+        category: "Engineering",
+        experienceLevel: "mid-level",
+        location: "Mumbai, MH",
+        locationType: "remote",
+        employmentType: "full-time",
+        salaryMin: 2000000,
+        salaryMax: 3500000,
+        shortDescription: "Scale the infrastructure that deploys websites.",
+        fullDescription: "Design and maintain systems behind Vercel's edge network and APIs using Node.js.",
+        skills: ["Node.js", "AWS", "Redis"],
+        tags: ["backend", "node"],
+        sourceUrl: "https://vercel.com/careers"
+    }
+];
 // ──────────────────────────────────────────────────────────
 // GET /api/jobs
 // Query params: page, limit, search, locationType, employmentType, tag
@@ -209,41 +243,6 @@ export async function seedJobs(request, reply) {
     if (env.NODE_ENV !== "development") {
         return reply.status(403).send({ error: "Seed command is only for development mode" });
     }
-
-    const sampleJobs = [
-        {
-            title: "Senior React Engineer",
-            company: "Stripe",
-            category: "Engineering",
-            experienceLevel: "senior",
-            location: "Remote",
-            locationType: "remote",
-            employmentType: "full-time",
-            salaryMin: 130000,
-            salaryMax: 180000,
-            shortDescription: "Build payment UIs used by millions of developers.",
-            fullDescription: "You will work with a frontend team to design and implement React components for Stripe. You will own performance and accessibility.",
-            skills: ["React", "TypeScript", "CSS"],
-            tags: ["frontend", "remote"],
-            sourceUrl: "https://stripe.com/jobs"
-        },
-        {
-            title: "Backend Engineer",
-            company: "Vercel",
-            category: "Engineering",
-            experienceLevel: "mid-level",
-            location: "Remote",
-            locationType: "remote",
-            employmentType: "full-time",
-            salaryMin: 140000,
-            salaryMax: 190000,
-            shortDescription: "Scale the infrastructure that deploys websites.",
-            fullDescription: "Design and maintain systems behind Vercel's edge network and APIs using Node.js.",
-            skills: ["Node.js", "AWS", "Redis"],
-            tags: ["backend", "node"],
-            sourceUrl: "https://vercel.com/careers"
-        }
-    ];
 
     try {
         await JobModel.insertMany(sampleJobs);

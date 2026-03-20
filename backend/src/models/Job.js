@@ -28,7 +28,7 @@ const jobSchema = new Schema(
         },
         salaryMin: { type: Number },                      // Numeric for filtering/sorting
         salaryMax: { type: Number },
-        salaryCurrency: { type: String, default: "USD", trim: true },
+        salaryCurrency: { type: String, default: "INR", trim: true },
         salaryPeriod: {
             type: String,
             enum: ["hourly", "monthly", "yearly"],

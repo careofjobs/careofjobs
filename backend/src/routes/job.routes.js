@@ -1,4 +1,3 @@
-import { requireAuth } from "../middleware/auth.js";
 import {
     applyToJob,
     createJob,
@@ -16,13 +15,12 @@ export async function jobRoutes(app) {
     app.get("/jobs/:id", getJob);
     app.get("/jobs/:id/apply", applyToJob);
 
-    // ── Protected routes (require API key) ───────────────────
-    app.post("/jobs", { preHandler: requireAuth }, createJob);
-    app.patch("/jobs/:id", { preHandler: requireAuth }, updateJob);
-    app.delete("/jobs/:id", { preHandler: requireAuth }, deleteJob);
-    app.get("/jobs/:id/clicks", { preHandler: requireAuth }, getJobClicks);
+    // ── Protected routes (require Admin JWT) ───────────────────
+    app.post("/jobs", { onRequest: [app.requireAdmin] }, createJob);
+    app.patch("/jobs/:id", { onRequest: [app.requireAdmin] }, updateJob);
+    app.delete("/jobs/:id", { onRequest: [app.requireAdmin] }, deleteJob);
+    app.get("/jobs/:id/clicks", { onRequest: [app.requireAdmin] }, getJobClicks);
 
     // ── Dev-only: seed sample data ───────────────────────────
-    // Kept on a separate top-level path to avoid Fastify route conflicts
-    app.post("/dev/seed", { preHandler: requireAuth }, seedJobs);
+    app.post("/dev/seed", { onRequest: [app.requireAdmin] }, seedJobs);
 }

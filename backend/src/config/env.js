@@ -9,7 +9,14 @@ export const env = {
     NODE_ENV: process.env.NODE_ENV || "development",
     MONGODB_URI: process.env.MONGODB_URI,
     API_ORIGIN: process.env.API_ORIGIN || "http://localhost:3000",
-    API_KEY: process.env.API_KEY || "dev-secret-key-2024"
+    API_KEY: process.env.API_KEY || "dev-secret-key-2024",
+
+    // MySQL Config
+    MYSQL_HOST: process.env.MYSQL_HOST || "127.0.0.1",
+    MYSQL_PORT: parseInt(process.env.MYSQL_PORT) || 3306,
+    MYSQL_USER: process.env.MYSQL_USER || "admin",
+    MYSQL_PASSWORD: process.env.MYSQL_PASSWORD || "",
+    MYSQL_DATABASE: process.env.MYSQL_DATABASE || "jobapplication"
 };
 
 if (!env.MONGODB_URI) {
