@@ -41,7 +41,7 @@ export default function Navbar() {
 
                     {/* Logo */}
                     <Link to="/" className="flex items-center gap-2 group">
-                        <img src="/images/logo_transparent.png" alt="C/O Jobs Logo" className="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300" />
+                        <img src={`${import.meta.env.BASE_URL}images/logo_transparent.png`} alt="C/O Jobs Logo" className="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300" />
                         <span className="text-xl font-bold tracking-tight text-white">
                             C/O Jobs
                         </span>
@@ -57,7 +57,7 @@ export default function Navbar() {
                             Explore Jobs
                         </Link>
 
-                        <a href="/#about" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">
+                        <a href={`${import.meta.env.BASE_URL}#about`} className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">
                             About Us
                         </a>
 
@@ -117,7 +117,7 @@ export default function Navbar() {
                         Explore Jobs
                     </Link>
                     <a
-                        href="/#about"
+                        href={`${import.meta.env.BASE_URL}#about`}
                         className="block text-sm font-medium py-2 text-zinc-400 hover:text-white transition-colors"
                     >
                         About Us
