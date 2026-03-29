@@ -1,5 +1,6 @@
 import { Twitter, Github, Linkedin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import logoUrl from '../assets/logo_transparent.png';
 
 export default function Footer() {
     return (
@@ -12,7 +13,7 @@ export default function Footer() {
 
                     <div className="md:col-span-1">
                         <div className="flex items-center gap-2 mb-4">
-                            <img src={`${import.meta.env.BASE_URL}images/logo_transparent.png`} alt="C/O Jobs Logo" className="w-14 h-14 object-contain" />
+                            <img src={logoUrl} alt="C/O Jobs Logo" className="w-14 h-14 object-contain" />
                             <span className="text-xl font-bold tracking-tight text-white">C/O Jobs</span>
                         </div>
                         <p className="text-zinc-400 text-sm leading-relaxed mb-6">

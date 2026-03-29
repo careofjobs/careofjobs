@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Menu, X, LogOut, PlusCircle, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import logoUrl from '../assets/logo_transparent.png';
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
@@ -41,7 +42,7 @@ export default function Navbar() {
 
                     {/* Logo */}
                     <Link to="/" className="flex items-center gap-2 group">
-                        <img src={`${import.meta.env.BASE_URL}images/logo_transparent.png`} alt="C/O Jobs Logo" className="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300" />
+                        <img src={logoUrl} alt="C/O Jobs Logo" className="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300" />
                         <span className="text-xl font-bold tracking-tight text-white">
                             C/O Jobs
                         </span>

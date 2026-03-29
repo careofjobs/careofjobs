@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -52,7 +52,7 @@ function NotFoundPage() {
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <HashRouter>
         <ScrollToTop />
         <div className="flex flex-col min-h-screen bg-[#09090b] text-[#e4e4e7] selection:bg-[#8b5cf6]/30">
           <Navbar />
@@ -87,7 +87,7 @@ function App() {
 
           <Footer />
         </div>
-      </BrowserRouter>
+      </HashRouter>
     </AuthProvider>
   );
 }

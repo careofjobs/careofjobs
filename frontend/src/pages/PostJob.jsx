@@ -16,7 +16,7 @@ export default function PostJob() {
         company: '',
         companyLogo: '',
         category: '',
-        experienceLevel: 'entry',
+        experienceLevel: 'entry-level',
         location: '',
         locationType: 'onsite',
         employmentType: 'full-time',
@@ -62,8 +62,8 @@ export default function PostJob() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Basic frontend validation
-        if (!formData.title || !formData.company || !formData.shortDescription) {
+        // Basic frontend validation matches backend requirements
+        if (!formData.title || !formData.company || !formData.category || !formData.location || !formData.shortDescription || !formData.fullDescription || !formData.sourceUrl) {
             setErrorMessage('Please fill out all required fields.');
             setStatus('error');
             return;
@@ -195,16 +195,18 @@ export default function PostJob() {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-zinc-400 mb-1">Category</label>
-                                        <input type="text" name="category" value={formData.category} onChange={handleChange} className="w-full bg-[#18181b] border border-white/10 rounded-xl py-2.5 px-4 text-white focus:border-[#8b5cf6]/50" placeholder="e.g. Engineering" />
+                                        <label className="block text-sm font-medium text-zinc-400 mb-1">Category *</label>
+                                        <input type="text" name="category" value={formData.category} onChange={handleChange} className="w-full bg-[#18181b] border border-white/10 rounded-xl py-2.5 px-4 text-white focus:border-[#8b5cf6]/50" required placeholder="e.g. Engineering" />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-zinc-400 mb-1">Experience Level</label>
                                         <select name="experienceLevel" value={formData.experienceLevel} onChange={handleChange} className="w-full bg-[#18181b] border border-white/10 rounded-xl py-2.5 px-4 text-white focus:border-[#8b5cf6]/50 appearance-none">
-                                            <option value="entry">Entry Level</option>
+                                            <option value="internship">Internship</option>
+                                            <option value="entry-level">Entry Level</option>
                                             <option value="mid-level">Mid Level</option>
                                             <option value="senior">Senior Level</option>
                                             <option value="lead">Lead / Manager</option>
+                                            <option value="executive">Executive</option>
                                         </select>
                                     </div>
                                 </div>
@@ -215,10 +217,10 @@ export default function PostJob() {
                                 <h3 className="text-lg font-semibold text-white mb-4 border-b border-white/10 pb-2">Logistics & Compensation</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-medium text-zinc-400 mb-1">Location / HQ</label>
+                                        <label className="block text-sm font-medium text-zinc-400 mb-1">Location / HQ *</label>
                                         <div className="relative">
                                             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                                            <input type="text" name="location" value={formData.location} onChange={handleChange} className="w-full bg-[#18181b] border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-white focus:border-[#8b5cf6]/50" placeholder="e.g. Bengaluru, KA" />
+                                            <input type="text" name="location" value={formData.location} onChange={handleChange} className="w-full bg-[#18181b] border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-white focus:border-[#8b5cf6]/50" required placeholder="e.g. Bengaluru, KA" />
                                         </div>
                                     </div>
                                     <div>
@@ -265,8 +267,8 @@ export default function PostJob() {
                                         <input type="text" name="shortDescription" value={formData.shortDescription} onChange={handleChange} className="w-full bg-[#18181b] border border-white/10 rounded-xl py-2.5 px-4 text-white focus:border-[#8b5cf6]/50 max-w-2xl" required placeholder="A brief one-sentence pitch about the role..." />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-zinc-400 mb-1">Full Description (Markdown supported)</label>
-                                        <textarea name="fullDescription" value={formData.fullDescription} onChange={handleChange} rows="6" className="w-full bg-[#18181b] border border-white/10 rounded-xl py-3 px-4 text-white focus:border-[#8b5cf6]/50" placeholder="Describe the responsibilities, team, and benefits..."></textarea>
+                                        <label className="block text-sm font-medium text-zinc-400 mb-1">Full Description * (Markdown supported)</label>
+                                        <textarea name="fullDescription" value={formData.fullDescription} onChange={handleChange} rows="6" className="w-full bg-[#18181b] border border-white/10 rounded-xl py-3 px-4 text-white focus:border-[#8b5cf6]/50" required placeholder="Describe the responsibilities, team, and benefits..."></textarea>
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
                                         <div>
@@ -277,8 +279,8 @@ export default function PostJob() {
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-zinc-400 mb-1">Application URL (External)</label>
-                                            <input type="url" name="sourceUrl" value={formData.sourceUrl} onChange={handleChange} className="w-full bg-[#18181b] border border-white/10 rounded-xl py-2.5 px-4 text-white focus:border-[#8b5cf6]/50" placeholder="https://..." />
+                                            <label className="block text-sm font-medium text-zinc-400 mb-1">Application URL (External) *</label>
+                                            <input type="url" name="sourceUrl" value={formData.sourceUrl} onChange={handleChange} className="w-full bg-[#18181b] border border-white/10 rounded-xl py-2.5 px-4 text-white focus:border-[#8b5cf6]/50" required placeholder="https://..." />
                                         </div>
                                     </div>
                                 </div>
